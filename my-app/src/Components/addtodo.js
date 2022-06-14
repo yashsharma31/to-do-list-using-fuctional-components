@@ -4,8 +4,6 @@ import drop1 from "../assets/drop1.png"
 import drop2 from "../assets/drop2.png"
 
 function AddTodo(props) {
-
-    const [defaultValue,setdefaultValue] = useState("")
     const [value,setvalue] = useState(props.addTodoValue)
 
 
@@ -21,19 +19,8 @@ function AddTodo(props) {
         props.fooAddTodo(value);
         clearInput();
     }
-    const countincc = (count) => {
-        count=count+1
-        console.log(count)
-        return count
-    }
-    const redneralltick= () => {
-        if(props.chkforactv()){
-            return <img src= {drop2} onClick={() => props.uncheckall()}></img>
-        }
-        else{
-            return <img src= {drop1}  onClick={() => props.checkall()}></img>
-        }
-    }
+
+
     
     
     return (
@@ -44,9 +31,7 @@ function AddTodo(props) {
             </p></div>
         <div className="todotaskbar">
             <div className='todotaskbar-imgs'>
-            {
-                redneralltick()
-            }
+                <img src= {props.chkforactv()?drop2:drop1} onClick={() => {props.chkforactv()?props.uncheckall():props.checkall()}}></img>
             </div>
             <input type="text" className="formm" id="todoValue" placeholder="What needs to be done?" onChange={handleChange} 
             onKeyPress={event => event.key === 'Enter' && addTodo()}
