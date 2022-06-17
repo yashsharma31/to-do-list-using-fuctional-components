@@ -1,9 +1,13 @@
-import React from 'react'
-import Todotest1 from './components/Todotest1'
-
+import logo from './logo.svg';
+import './App.css';
+import React from 'react';
+import Todos from './components/todos';
+import Footer from './components/footer';
 const App = () => {
   return (
-    <Todotest1/>
+    <div className='App'>
+    <Todos/>
+    </div>
   )
 }
 
