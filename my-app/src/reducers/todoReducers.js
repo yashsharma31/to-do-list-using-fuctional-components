@@ -1,20 +1,7 @@
 const intialData = {
-    list: [{
-        id:1,
-        value:"test1",
-        isDone:false,
-    },
-    {
-        id:2,
-        value:"test2",
-        isDone:true,
-    },
-    {
-        id:3,
-        value:"test3",
-        isDone:true,
-    }
-
+    filteredlist: [
+    ],
+    list:[
     ]
 }
 const todoReducers = (state=intialData, actions) => {
@@ -31,13 +18,22 @@ const todoReducers = (state=intialData, actions) => {
                         value:value,
                         isDone:isDone
                     }
+                ],
+                filteredlist:[
+                    ...state.list,
+                    {
+                        id:id,
+                        value:value,
+                        isDone:isDone
+                    }
                 ]
             }
         case "Delete_Todo":
             const newlist = state.list.filter((t) => t.id !== actions.payload.id)
             return {
                 ...state,
-                list:newlist
+                list:newlist,
+                filteredlist:newlist
             }
             
 
@@ -52,7 +48,8 @@ const todoReducers = (state=intialData, actions) => {
                 });
             return {
                 ...state,
-                list:new2ndlist
+                list:new2ndlist,
+                filteredlist:new2ndlist
             }
         case "Change_tf_state":
             let oldTodos = [];
@@ -66,8 +63,81 @@ const todoReducers = (state=intialData, actions) => {
             console.log(newList)
             return {
                 ...state,
-                list:newList
+                list:newList,
+                filteredlist:newList,
             }
+
+        case "Check_for_all":
+            let gettodos = state.list;
+            const newtodos = gettodos.map((t) => {
+                t.isDone = true;
+                return t
+            });
+            return{
+                ...state,
+                list:newtodos,
+                filteredlist:newtodos
+            }
+
+        case "Uncheck_for_all":
+            let getuntodos = state.list;
+            const newuntodos = getuntodos.map((t) => {
+                t.isDone = false;
+                return t
+            });
+            return{
+                ...state,
+                list:newuntodos,
+                filteredlist:newuntodos
+            }
+        case "Filter_All":
+            let newallList = [];
+            newallList = state.list.filter((t) => {
+                    return t.id
+            });
+            return{
+                ...state,
+                filteredlist:newallList,
+            }
+
+        case "Filter_Active":
+            let newactiveList = [];
+            newactiveList = state.list.filter((t) => {
+                if(t.isDone==false){
+                    return t.id 
+                }
+            });
+            
+            return{
+                ...state,
+                filteredlist:newactiveList,
+            }
+
+        case "Filter_Completed":
+            let newcompleteList = [];
+            newcompleteList = state.list.filter((t) => {
+                if(t.isDone==true){
+                    return t.id 
+                }
+            });
+            return{
+                ...state,
+                filteredlist:newcompleteList,
+            }
+        
+        case "Clear_Completed":
+            let newclearedList = [];
+            newclearedList = state.list.filter((t) => {
+                return !t.isDone
+            });
+            return{
+                ...state,
+                list:newclearedList,
+                filteredlist:newclearedList
+            }
+
+
+        
 
             
         default: return state;
